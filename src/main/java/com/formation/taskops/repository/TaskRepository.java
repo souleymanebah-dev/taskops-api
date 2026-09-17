@@ -7,15 +7,12 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 /**
- * Spring Data genere AUTOMATIQUEMENT l'implementation de cette interface au demarrage.
- * En heritant de JpaRepository<Task, Long>, on obtient sans ecrire une ligne :
- * findAll(), findById(), save(), deleteById(), count()...
+ * Repository Spring Data JPA pour l'entite Task.
+ * Les methodes de base (findAll, findById, save, deleteById, existsById...)
+ * sont fournies automatiquement par JpaRepository.
+ * findByStatus est derivee automatiquement du nom de la methode par Spring Data,
+ * a partir du champ "status" de l'entite Task.
  */
 public interface TaskRepository extends JpaRepository<Task, Long> {
-
-    /**
-     * Methode "derivee" : Spring Data lit le NOM de la methode et ecrit la requete
-     * SQL correspondante (SELECT * FROM tasks WHERE status = ?).
-     */
     List<Task> findByStatus(TaskStatus status);
 }

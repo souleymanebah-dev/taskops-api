@@ -6,9 +6,10 @@ import com.formation.taskops.repository.TaskRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.EnumMap;
+import java.util.List;
 import java.util.Map;
+
 /**
  * Couche metier. Elle isole les regles de gestion du controleur (HTTP)
  * et du repository (base de donnees).
@@ -52,12 +53,15 @@ public class TaskService {
 
     @Transactional
     public Task update(Long id, Task data) {
-        Task existing = findById(id);          // leve 404 si absente
+        Task existing = findById(id); // leve 404 si absente
+
         existing.setTitle(data.getTitle());
         existing.setDescription(data.getDescription());
+
         if (data.getStatus() != null) {
             existing.setStatus(data.getStatus());
         }
+
         return repository.save(existing);
     }
 
@@ -66,35 +70,25 @@ public class TaskService {
         if (!repository.existsById(id)) {
             throw new TaskNotFoundException(id);
         }
+
         repository.deleteById(id);
     }
-	/**
-	* Compte les taches par statut.
- 	* Renvoie une Map ordonnee : TODO, IN_PROGRESS, DONE.
-	*/
-	@Transactional(readOnly = true)
-	public Map<TaskStatus, Long> countByStatus() {
-	Map<TaskStatus, Long> resultat = new EnumMap<>(TaskStatus.class);
-	for (TaskStatus statut : TaskStatus.values()) {
-	resultat.put(statut, (long) repository.findByStatus(statut).size());
-	}
-	return resultat;
-	}
-	@Test
-	@DisplayName("countByStatus() renvoie un compteur pour chacun des trois statuts")
-	void countByStatus_couvreTousLesStatuts() {
-	// GIVEN
-	when(repository.findByStatus(TaskStatus.TODO))
-	.thenReturn(List.of(new Task("A", null), new Task("B", null)));
-	when(repository.findByStatus(TaskStatus.IN_PROGRESS)).thenReturn(List.of());
-	when(repository.findByStatus(TaskStatus.DONE))
-	.thenReturn(List.of(new Task("C", null)));
-	// WHEN
 
-	Map<TaskStatus, Long> compteurs = service.countByStatus();
-	// THEN
-	assertThat(compteurs)
-	.containsEntry(TaskStatus.TODO, 2L)
-	.containsEntry(TaskStatus.IN_PROGRESS, 0L)
-	.containsEntry(TaskStatus.DONE, 1L);
+    /**
+     * Compte les taches par statut.
+     * Renvoie une Map ordonnee : TODO, IN_PROGRESS, DONE.
+     */
+    @Transactional(readOnly = true)
+    public Map<TaskStatus, Long> countByStatus() {
+        Map<TaskStatus, Long> resultat = new EnumMap<>(TaskStatus.class);
+
+        for (TaskStatus statut : TaskStatus.values()) {
+            resultat.put(
+                    statut,
+                    (long) repository.findByStatus(statut).size()
+            );
+        }
+
+        return resultat;
+    }
 }
