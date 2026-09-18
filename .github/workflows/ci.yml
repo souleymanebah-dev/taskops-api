@@ -73,6 +73,8 @@ jobs:
           java-version: '25'
           distribution: 'temurin'
           cache: 'maven'
+      - name: Make mvnw exec
+        run : chmod +x mvnw
  
       - name: Mettre en cache l'analyse Sonar
         uses: actions/cache@v4
