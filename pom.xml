@@ -27,8 +27,8 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <!-- Coordonnees SonarQube Cloud : remplacez par VOS valeurs -->
-        <sonar.organization>votre-pseudo</sonar.organization>
-        <sonar.projectKey>votre-pseudo_taskops-api</sonar.projectKey>
+        <sonar.organization>souleymanebah-dev</sonar.organization>
+        <sonar.projectKey>souleymanebah-dev_taskops-api</sonar.projectKey>
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
         <!-- Indique a Sonar ou trouver le rapport de couverture produit par JaCoCo -->
         <sonar.coverage.jacoco.xmlReportPaths>
