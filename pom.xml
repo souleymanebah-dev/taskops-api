@@ -25,6 +25,15 @@
         <java.version>25</java.version>
         <!-- Encodage explicite : evite les surprises entre Windows, macOS et la CI Linux -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+        <!-- Coordonnees SonarQube Cloud : remplacez par VOS valeurs -->
+        <sonar.organization>votre-pseudo</sonar.organization>
+        <sonar.projectKey>votre-pseudo_taskops-api</sonar.projectKey>
+        <sonar.host.url>https://sonarcloud.io</sonar.host.url>
+        <!-- Indique a Sonar ou trouver le rapport de couverture produit par JaCoCo -->
+        <sonar.coverage.jacoco.xmlReportPaths>
+            ${project.build.directory}/site/jacoco/jacoco.xml
+        </sonar.coverage.jacoco.xmlReportPaths>
     </properties>
 
     <dependencies>
@@ -58,10 +67,23 @@
         </dependency>
 
         <!-- Boite a outils de test : JUnit 5 (Jupiter), AssertJ, Mockito, MockMvc.
+             ATTENTION Spring Boot 4 : l'infrastructure de test est MODULARISEE.
+             spring-boot-starter-test ne contient plus les *tranches* de test ; chaque
+             technologie a son starter de test compagnon, qui embarque
+             spring-boot-starter-test transitivement. Inutile de le declarer en plus.
              Portee "test" : jamais embarquee dans le livrable. -->
+
+        <!-- Tranche web : @WebMvcTest + MockMvc -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
+            <artifactId>spring-boot-starter-webmvc-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- Tranche persistance : @DataJpaTest -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa-test</artifactId>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -72,6 +94,33 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+
+            <!-- JaCoCo : instrumente le bytecode pour savoir quelles lignes
+                 sont executees pendant les tests.
+                 0.8.14 est la premiere version supportant officiellement Java 25 :
+                 une version plus ancienne echouera sur du bytecode version 69. -->
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.8.14</version>
+                <executions>
+                    <!-- 1. Active l'agent JaCoCo AVANT l'execution des tests -->
+                    <execution>
+                        <id>prepare-agent</id>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                    <!-- 2. Genere le rapport HTML + XML APRES les tests -->
+                    <execution>
+                        <id>report</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
