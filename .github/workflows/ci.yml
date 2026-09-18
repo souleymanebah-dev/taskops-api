@@ -35,7 +35,8 @@ jobs:
           java-version: '25'
           distribution: 'temurin'
           cache: 'maven'
- 
+      - name: Chmod mvnw
+        run : chmod +x mvnw
       # 3. Construire et tester.
       # -B : mode batch (pas de couleurs ni de barres de progression, logs lisibles)
       # verify : compile + tests + rapport JaCoCo
