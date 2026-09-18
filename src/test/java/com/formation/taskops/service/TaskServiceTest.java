@@ -76,7 +76,7 @@ class TaskServiceTest {
 
         // THEN
         assertThat(compteurs)
-                .containsEntry(TaskStatus.TODO, 2L)
+                .containsEntry(TaskStatus.TODO, 999L)
                 .containsEntry(TaskStatus.IN_PROGRESS, 0L)
                 .containsEntry(TaskStatus.DONE, 1L);
     }
