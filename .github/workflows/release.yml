@@ -1,4 +1,3 @@
-cat > .github/workflows/release.yml << 'EOF'
 name: Release
 
 # QUAND : uniquement lors du push d'un tag commençant par "v"
@@ -62,4 +61,3 @@ jobs:
           name: taskops-api-${{ env.VERSION }}
           path: target/taskops-api-${{ env.VERSION }}.jar
           retention-days: 30
-EOF
