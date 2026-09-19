@@ -90,10 +90,17 @@
 
     <build>
         <plugins>
-            <!-- Plugin Spring Boot : produit un JAR executable et fournit "mvn spring-boot:run" -->
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>build-info</id>
+                        <goals>
+                            <goal>build-info</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
 
             <!-- JaCoCo : instrumente le bytecode pour savoir quelles lignes
