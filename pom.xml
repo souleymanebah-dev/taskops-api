@@ -16,7 +16,7 @@
     <!-- Coordonnées de NOTRE artefact : groupId:artifactId:version -->
     <groupId>com.formation</groupId>
     <artifactId>taskops-api</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.2.0</version>
     <name>taskops-api</name>
     <description>API REST de gestion de taches - projet fil rouge DevOps B3</description>
 
@@ -44,6 +44,13 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-webmvc</artifactId>
+        </dependency>
+        <!-- Pilote PostgreSQL. Portee "runtime" : necessaire a l'execution,
+            pas a la compilation. H2 reste present pour les tests. -->
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <scope>runtime</scope>
         </dependency>
 
         <!-- Persistance : Spring Data JPA + Hibernate. Fournit les repositories automatiques -->
@@ -86,9 +93,20 @@
             <artifactId>spring-boot-starter-data-jpa-test</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
     </dependencies>
 
     <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
