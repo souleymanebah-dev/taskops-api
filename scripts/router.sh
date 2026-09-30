@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
 PORT=$(cat .active 2>/dev/null || echo 8081)
 echo "→ routage vers le port ${PORT}"
-curl -s "http://localhost:${PORT}/actuator/info" | jq .
+curl -s "http://localhost:${PORT}/actuator/info"
+echo ""
