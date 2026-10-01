@@ -1,5 +1,6 @@
 package com.formation.taskops.controller;
 
+import com.formation.taskops.service.CanaryService;
 import com.formation.taskops.model.Task;
 import com.formation.taskops.model.TaskStatus;
 import com.formation.taskops.service.TaskNotFoundException;
@@ -40,6 +41,9 @@ class TaskControllerTest {
      */
     @MockitoBean
     private TaskService service;
+
+    @MockitoBean
+    private CanaryService canaryService;
 
     @Test
     @DisplayName("GET /api/tasks renvoie 200 et la liste au format JSON")
